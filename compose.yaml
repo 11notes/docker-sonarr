@@ -7,6 +7,8 @@ services:
       TZ: "Europe/Zurich"
     volumes:
       - "sonarr.var:/sonarr/var"
+    tmpfs:
+      - "/tmp:uid=1000,gid=1000" # required for read-only image
     ports:
       - "8989:8989/tcp"
     networks:
