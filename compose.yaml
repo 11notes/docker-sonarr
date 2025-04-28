@@ -1,0 +1,20 @@
+name: "arrs"
+services:
+  sonarr:
+    image: "11notes/sonarr:4.0.14"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "sonarr.var:/sonarr/var"
+    ports:
+      - "8989:8989/tcp"
+    networks:
+      frontend:
+    restart: "always"
+
+volumes:
+  sonarr.var:
+
+networks:
+  frontend:

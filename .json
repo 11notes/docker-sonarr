@@ -1,0 +1,30 @@
+{
+  "image":"11notes/sonarr",
+  "name":"sonarr",
+  "root":"/sonarr",
+
+  "build":{
+    "args":{
+      "version_build":"2939"
+    }
+  },
+  
+  "semver":{
+    "version":"4.0.14",
+    "stable":"4.0.14",
+    "latest":"4.0.14"
+  },
+
+  "readme":{
+    "description":"Run Sonarr smaller, lightweight and more secure",
+    "parent":{
+      "image":"11notes/alpine"
+    },
+    "built":{
+      "sonarr":"https://github.com/Sonarr/Sonarr"
+    },
+    "comparison":{
+      "image":"linuxserver/sonarr:version-4.0.14.2939"
+    }
+  }
+}
