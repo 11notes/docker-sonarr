@@ -45,7 +45,6 @@ jobs:
       actions: read
       contents: write
       packages: write
-      security-events: write
 
     steps:   
       - name: init / checkout
