@@ -24,6 +24,7 @@ jobs:
           script: |
             const { existsSync, readFileSync, writeFileSync } = require('node:fs');
             const { resolve } = require('node:path');
+            const { inspect } = require('node:util');
             const latest = "${{ env.LATEST_VERSION }}";
             const repository = {dot:{}};
 
@@ -59,10 +60,10 @@ jobs:
                 core.setFailed(e);
               }
             }else{
-              core.info(`latest version ${latest} is equal to current version ${repository.dot.semver.version}.${repository.dot.build.args.version_build}`);
+              core.info(`latest version ${latest} is equal to current version ${repository.dot.semver.version}.${repository.dot.build.args.version_build}, no update needed!`);
             }
 
-            core.info(repository.dot);
+            core.info(inspect(repository.dot, {showHidden:false, depth:null, colors:true}));
 
       - name: cron-update / checkout
         id: checkout
