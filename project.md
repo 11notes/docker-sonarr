@@ -13,6 +13,8 @@ If you value security, simplicity and the ability to interact with the maintaine
 
 ${{ content_comparison }}
 
+**Why is this image not distroless?** I would have loved to create a distroless, single binary image, sadly the way that Sonarr is setup makes it really difficult to compile a static binary from source. Enabling AOT breaks almost 30% of used libraries because they are not setup to be statically linked (like Assembly.GetExecutingAssembly().Location). It’s also not fixable with a single PR. This is something the Sonarr team would need to do.
+
 ${{ title_volumes }}
 * **${{ json_root }}/etc** - Directory of all your settings and database
 
