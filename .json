@@ -24,7 +24,7 @@
       "sonarr":"https://github.com/Sonarr/Sonarr"
     },
     "comparison":{
-      "image":"linuxserver/sonarr:version-4.0.14.2939"
+      "image":"linuxserver/sonarr:4.0.14"
     }
   }
 }
