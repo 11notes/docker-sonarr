@@ -18,7 +18,7 @@
   "readme":{
     "description":"Run Sonarr smaller, lightweight and more secure",
     "parent":{
-      "image":"11notes/alpine"
+      "image":"11notes/alpine:stable"
     },
     "built":{
       "sonarr":"https://github.com/Sonarr/Sonarr"
