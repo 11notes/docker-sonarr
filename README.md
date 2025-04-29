@@ -45,6 +45,8 @@ Below you find a comparison between this image and the most used or original one
 | **rootless?** | ✅ | ❌ |
 
 
+**Why is this image not distroless?** I would have loved to create a distroless, single binary image, sadly the way that Sonarr is setup makes it really difficult to compile a static binary from source. Enabling AOT breaks almost 30% of used libraries because they are not setup to be statically linked (like Assembly.GetExecutingAssembly().Location). It’s also not fixable with a single PR. This is something the Sonarr team would need to do.
+
 # VOLUMES 📁
 * **/sonarr/etc** - Directory of all your settings and database
 
@@ -92,7 +94,7 @@ networks:
 * [11notes/sonarr](https://github.com/11notes/docker-SONARR)
 
 # PARENT IMAGE 🏛️
-* [11notes/alpine](${{ json_readme_parent_url }})
+* [11notes/alpine:stable](https://hub.docker.com/r/11notes/alpine)
 
 # BUILT WITH 🧰
 * [sonarr](https://github.com/Sonarr/Sonarr)
@@ -106,4 +108,4 @@ networks:
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 29.04.2025, 08:00:41 (CET)*
+*created 29.04.2025, 09:27:21 (CET)*
