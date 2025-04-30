@@ -10,9 +10,7 @@
   },
   
   "semver":{
-    "version":"4.0.14",
-    "stable":"4.0.14",
-    "latest":"4.0.14"
+    "version":"4.0.14"
   },
 
   "readme":{
