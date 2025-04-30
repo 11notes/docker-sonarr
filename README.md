@@ -15,7 +15,7 @@ These are the main tags for the image. There is also a tag for each commit and i
 docker pull 11notes/sonarr:4.0.14
 docker pull ghcr.io/11notes/sonarr:4.0.14
 docker pull quay.io/11notes/sonarr:4.0.14
-```
+```**There is no latest tag, how am I supposed to use this image at all?** It is of my opinion that the ```:latest``` tag is super dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using 4.0.14 you can use 4 or 4.0. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
 
 # SYNOPSIS 📖
 **What can I do with this?** This image will give you a rootless and lightweight Sonarr installation. Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
@@ -106,4 +106,4 @@ networks:
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 30.04.2025, 07:58:52 (CET)*
+*created 30.04.2025, 11:59:46 (CET)*
