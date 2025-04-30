@@ -37,7 +37,7 @@ If you value security, simplicity and the ability to interact with the maintaine
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| ![128px](https://github.com/11notes/defaults/blob/main/static/img/transparent128x1px.png?raw=true)**image** | 11notes/sonarr:4.0.14 | linuxserver/sonarr:version-4.0.14.2939 |
+| ![128px](https://github.com/11notes/defaults/blob/main/static/img/transparent128x1px.png?raw=true)**image** | 11notes/sonarr:4.0.14 | linuxserver/sonarr:4.0.14 |
 | ---: | :---: | :---: |
 | **image size on disk** | 182MB | 205MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
@@ -108,4 +108,4 @@ networks:
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 29.04.2025, 09:27:21 (CET)*
+*created 29.04.2025, 12:48:22 (CET)*
