@@ -386,17 +386,6 @@ jobs:
           short_description: ${{ env.DOCKER_IMAGE_DESCRIPTION }}
           readme_file: 'README_NONGITHUB.md'
 
-      - name: quay / push README.md to quay
-        continue-on-error: true
-        if: steps.github-readme.outcome == 'success' && hashFiles('README_NONGITHUB.md') != ''
-        uses: christian-korneck/update-container-description-action@d36005551adeaba9698d8d67a296bd16fa91f8e8
-        env:
-          DOCKER_APIKEY: ${{ secrets.QUAY_TOKEN }}
-        with:
-          destination_container_repo: quay.io/${{ env.DOCKER_IMAGE_NAME }}
-          provider: quay
-          readme_file: 'README_NONGITHUB.md'
-
       - name: github / commit & push
         continue-on-error: true
         if: steps.github-readme.outcome == 'success' && hashFiles('README.md') != ''
