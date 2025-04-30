@@ -6,9 +6,10 @@ services:
     environment:
       TZ: "Europe/Zurich"
     volumes:
-      - "sonarr.var:/sonarr/var"
+      - "sonarr.etc:/sonarr/etc"
     tmpfs:
-      - "/tmp:uid=1000,gid=1000" # required for read-only image
+      # required for read-only image
+      - "/tmp:uid=1000,gid=1000"
     ports:
       - "8989:8989/tcp"
     networks:
@@ -16,7 +17,7 @@ services:
     restart: "always"
 
 volumes:
-  sonarr.var:
+  sonarr.etc:
 
 networks:
   frontend:
