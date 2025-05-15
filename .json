@@ -11,7 +11,7 @@
     "version": "4.0.14"
   },
   "readme": {
-    "description": "Run Sonarr smaller, lightweight and more secure",
+    "description": "Run Sonarr smaller, lightweight and more secure than ever",
     "parent": {
       "image": "11notes/alpine:stable"
     },
