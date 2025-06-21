@@ -4,11 +4,11 @@
   "root": "/sonarr",
   "build": {
     "args": {
-      "version_build": "2939"
+      "version_build": "2941"
     }
   },
   "semver": {
-    "version": "4.0.14"
+    "version": "4.0.15"
   },
   "readme": {
     "description": "Run Sonarr smaller, lightweight and more secure than ever",
@@ -19,7 +19,7 @@
       "sonarr": "https://github.com/Sonarr/Sonarr"
     },
     "comparison": {
-      "image": "linuxserver/sonarr:4.0.14"
+      "image": "linuxserver/sonarr:4.0.15"
     }
   }
 }
