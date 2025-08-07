@@ -9,22 +9,23 @@ Run Sonarr smaller, lightweight and more secure than ever
 **What can I do with this?** This image will give you a rootless and lightweight Sonarr installation. Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
 
 # UNIQUE VALUE PROPOSITION 💶
-**Why should I run this image and not the other image(s) that already exist?** Good question! All the other images on the market that do exactly the same don’t do or offer these options:
+**Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
 
 > [!IMPORTANT]
->* This image runs as 1000:1000 by default, most other images run everything as root
->* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
->* This image contains a proper health check that verifies the app is actually working, most other images have either no health check or only check if a port is open or ping works
->* This image works as read-only, most other images need to write files to the image filesystem
->* This repository has an auto update feature that will automatically build the latest version if released, most other providers don't do this
->* This image is smaller than most other images
+>* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
+>* ... this image is auto updated to the latest version via CI/CD
+>* ... this image has a health check
+>* ... this image runs read-only
+>* ... this image is automatically scanned for CVEs before and after publishing
+>* ... this image is created via a secure and pinned CI/CD process
+>* ... this image is very small
 
-If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| **image** | 11notes/sonarr:4.0.15 | linuxserver/sonarr:4.0.15 |
+| **image** | 11notes/sonarr:4.0.15 | linuxserver/sonarr |
 | ---: | :---: | :---: |
 | **image size on disk** | 183MB | 205MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
@@ -52,7 +53,7 @@ services:
       # required for read-only image
       - "/tmp:uid=1000,gid=1000"
     ports:
-      - "8989:8989/tcp"
+      - "3000:8989/tcp"
     networks:
       frontend:
     restart: "always"
@@ -84,7 +85,7 @@ These are the main tags for the image. There is also a tag for each commit and i
 * [4.0.15](https://hub.docker.com/r/11notes/sonarr/tags?name=4.0.15)
 
 ### There is no latest tag, what am I supposed to do about updates?
-It is of my opinion that the ```:latest``` tag is super dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:4.0.15``` you can use ```:4``` or ```:4.0```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
+It is of my opinion that the ```:latest``` tag is dangerous. Many times, I’ve introduced **breaking** changes to my images. This would have messed up everything for some people. If you don’t want to change the tag to the latest [semver](https://semver.org/), simply use the short versions of [semver](https://semver.org/). Instead of using ```:4.0.15``` you can use ```:4``` or ```:4.0```. Since on each new version these tags are updated to the latest version of the software, using them is identical to using ```:latest``` but at least fixed to a major or minor version.
 
 If you still insist on having the bleeding edge release of this app, simply use the ```:rolling``` tag, but be warned! You will get the latest version of the app instantly, regardless of breaking changes or security issues or what so ever. You do this at your own risk!
 
@@ -113,4 +114,4 @@ docker pull quay.io/11notes/sonarr:4.0.15
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 21.06.2025, 07:13:43 (CET)*
+*created 07.08.2025, 16:26:49 (CET)*
