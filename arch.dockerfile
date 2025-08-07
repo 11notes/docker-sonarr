@@ -1,41 +1,54 @@
-ARG APP_UID=1000
-ARG APP_GID=1000
+# ╔═════════════════════════════════════════════════════╗
+# ║                       SETUP                         ║
+# ╚═════════════════════════════════════════════════════╝
+# GLOBAL
+  ARG APP_UID=1000 \
+      APP_GID=1000
 
-# :: Util
+# :: FOREIGN IMAGES
   FROM 11notes/util AS util
+  FROM 11notes/util:bin AS util-bin
+  FROM 11notes/distroless:localhealth AS distroless-localhealth
 
-# :: Build
+# ╔═════════════════════════════════════════════════════╗
+# ║                       BUILD                         ║
+# ╚═════════════════════════════════════════════════════╝
+# :: SONARR
   FROM alpine AS build
-  ARG TARGETARCH
-  ARG APP_VERSION
-  ARG APP_VERSION_BUILD
-  ENV BUILD_ROOT=/Sonarr
-  ENV BUILD_BIN=${BUILD_ROOT}/Sonarr
-  USER root
-
-  COPY --from=util /usr/local/bin/ /usr/local/bin
+  COPY --from=util-bin / /
+  ARG TARGETARCH \
+      APP_VERSION \
+      APP_VERSION_BUILD \
+      BUILD_ROOT=/Sonarr
+  ARG BUILD_BIN=${BUILD_ROOT}/Sonarr
 
   RUN set -ex; \
     apk --update --no-cache add \
-      curl \
-      build-base \
-      upx; \
+      jq;
+
+  RUN set -ex; \
     case "${TARGETARCH}" in \
       "amd64") \
-        curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz | tar -zxC /; \
+        eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz; \
+        #curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz | tar -zxC /; \
       ;; \
       "arm64") \
-        curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz | tar -zxC /; \
+        eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz; \
+        #curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz | tar -zxC /; \
       ;; \
-    esac; \
+    esac;
+
+  RUN -set ex; \
     eleven strip ${BUILD_BIN}; \
     eleven strip ${BUILD_ROOT}/ffprobe; \
-    find ${BUILD_ROOT} -type f -name '*.so' -exec strip -v {} &> /dev/null ';'; \
     mkdir -p /opt/sonarr; \
     cp -R ${BUILD_ROOT}/* /opt/sonarr; \
     rm -rf /opt/sonarr/Sonarr.Update;
 
-# :: Header
+# ╔═════════════════════════════════════════════════════╗
+# ║                       IMAGE                         ║
+# ╚═════════════════════════════════════════════════════╝
+# :: HEADER
   FROM 11notes/alpine:stable
 
   # :: arguments
@@ -54,8 +67,10 @@ ARG APP_GID=1000
     ENV APP_ROOT=${APP_ROOT}
 
   # :: multi-stage
-    COPY --from=util --chown=${APP_UID}:${APP_GID} /usr/local/bin/ /usr/local/bin
-    COPY --from=build --chown=${APP_UID}:${APP_GID} /opt/sonarr /opt/sonarr
+    COPY --from=distroless-localhealth / /
+    COPY --from=build /opt/sonarr /opt/sonarr
+    COPY --from=util / /
+    COPY ./rootfs /
 
 # :: Run
   USER root
@@ -68,17 +83,17 @@ ARG APP_GID=1000
       mkdir -p ${APP_ROOT}/etc;
 
   # :: copy filesystem changes and set correct permissions
-    COPY ./rootfs /
     RUN set -ex; \
       chmod +x -R /usr/local/bin; \
       chown -R ${APP_UID}:${APP_GID} \
         ${APP_ROOT};
 
-# :: Volumes
+# :: PERSISTENT DATA
   VOLUME ["${APP_ROOT}/etc"]
 
-# :: Monitor
-  HEALTHCHECK --interval=5s --timeout=2s CMD ["/usr/bin/curl", "-kILs", "--fail", "-o", "/dev/null", "http://localhost:8989/ping"]
+# :: MONITORING
+  HEALTHCHECK --interval=5s --timeout=2s --start-period=5s \
+    CMD ["/usr/local/bin/localhealth", "http://127.0.0.1:8989/ping"]
 
-# :: Start
+# :: EXECUTE
   USER ${APP_UID}:${APP_GID}

@@ -1,7 +1,7 @@
 name: "arrs"
 services:
   sonarr:
-    image: "11notes/sonarr:4.0.14"
+    image: "11notes/sonarr:4.0.15"
     read_only: true
     environment:
       TZ: "Europe/Zurich"
@@ -11,7 +11,7 @@ services:
       # required for read-only image
       - "/tmp:uid=1000,gid=1000"
     ports:
-      - "8989:8989/tcp"
+      - "3000:8989/tcp"
     networks:
       frontend:
     restart: "always"
