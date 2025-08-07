@@ -30,17 +30,16 @@
     case "${TARGETARCH}" in \
       "amd64") \
         eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz; \
-        #curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz | tar -zxC /; \
       ;; \
       "arm64") \
         eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz; \
-        #curl -SL https://github.com/Sonarr/Sonarr/releases/download/v${APP_VERSION}.${APP_VERSION_BUILD}/Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz | tar -zxC /; \
       ;; \
     esac;
 
-  RUN -set ex; \
+  RUN set -ex; \
     eleven strip ${BUILD_BIN}; \
     eleven strip ${BUILD_ROOT}/ffprobe; \
+    find ./ -type f -name "*.dll" -exec /usr/local/bin/upx -q --best --ultra-brute --no-backup {} &> /dev/null \; ;\
     mkdir -p /opt/sonarr; \
     cp -R ${BUILD_ROOT}/* /opt/sonarr; \
     rm -rf /opt/sonarr/Sonarr.Update;
@@ -51,20 +50,24 @@
 # :: HEADER
   FROM 11notes/alpine:stable
 
-  # :: arguments
-    ARG TARGETARCH
-    ARG APP_IMAGE
-    ARG APP_NAME
-    ARG APP_VERSION
-    ARG APP_ROOT
-    ARG APP_UID
-    ARG APP_GID
+  # :: default arguments
+    ARG TARGETPLATFORM \
+        TARGETOS \
+        TARGETARCH \
+        TARGETVARIANT \
+        APP_IMAGE \
+        APP_NAME \
+        APP_VERSION \
+        APP_ROOT \
+        APP_UID \
+        APP_GID \
+        APP_NO_CACHE
 
-  # :: environment
-    ENV APP_IMAGE=${APP_IMAGE}
-    ENV APP_NAME=${APP_NAME}
-    ENV APP_VERSION=${APP_VERSION}
-    ENV APP_ROOT=${APP_ROOT}
+  # :: default environment
+    ENV APP_IMAGE=${APP_IMAGE} \
+        APP_NAME=${APP_NAME} \
+        APP_VERSION=${APP_VERSION} \
+        APP_ROOT=${APP_ROOT}
 
   # :: multi-stage
     COPY --from=distroless-localhealth / /
