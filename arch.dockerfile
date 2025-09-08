@@ -3,46 +3,70 @@
 # ╚═════════════════════════════════════════════════════╝
 # GLOBAL
   ARG APP_UID=1000 \
-      APP_GID=1000
+      APP_GID=1000 \
+      BUILD_DOT_NET_VERSION=9.0.304 \
+      BUILD_SRC=Sonarr/Sonarr.git \
+      BUILD_ROOT=/Sonarr
 
 # :: FOREIGN IMAGES
   FROM 11notes/util AS util
   FROM 11notes/util:bin AS util-bin
   FROM 11notes/distroless:localhealth AS distroless-localhealth
+  FROM 11notes/distroless:ds AS distroless-ds
+
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
-# :: SONARR
-  FROM alpine AS build
+# :: PROWLARR
+  FROM 11notes/dotnetsdk:${BUILD_DOT_NET_VERSION} AS build
   COPY --from=util-bin / /
+  COPY --from=distroless-ds / /
   ARG TARGETARCH \
+      TARGETVARIANT \
       APP_VERSION \
       APP_VERSION_BUILD \
-      BUILD_ROOT=/Sonarr
-  ARG BUILD_BIN=${BUILD_ROOT}/Sonarr
+      BUILD_SRC \
+      BUILD_ROOT \
+      BUILD_DOT_NET_VERSION
+  ENV PROWLARRVERSION=${APP_VERSION}.${APP_VERSION_BUILD}
+
+  RUN set -ex; \
+    eleven git clone ${BUILD_SRC} v${APP_VERSION}.${APP_VERSION_BUILD};
+
+  RUN set -ex; \
+    echo '{"sdk":{"version":"'${BUILD_DOT_NET_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
+    sed -i 's#<TreatWarningsAsErrors>true</TreatWarningsAsErrors>#<TreatWarningsAsErrors>false</TreatWarningsAsErrors>#' ${BUILD_ROOT}/src/Directory.Build.props; \
+    cat ${BUILD_ROOT}/global.json;
 
   RUN set -ex; \
     apk --update --no-cache add \
-      jq;
+      yarn \
+      pnpm \
+      bash;
 
   RUN set -ex; \
-    case "${TARGETARCH}" in \
-      "amd64") \
-        eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-x64.tar.gz; \
-      ;; \
-      "arm64") \
-        eleven github asset Sonarr/Sonarr v${APP_VERSION}.${APP_VERSION_BUILD} Sonarr.main.${APP_VERSION}.${APP_VERSION_BUILD}.linux-musl-${TARGETARCH}.tar.gz; \
-      ;; \
-    esac;
+    cd ${BUILD_ROOT}; \
+    case "${TARGETARCH}${TARGETVARIANT}" in \
+      "amd64") export TARGETARCH="x64";; \
+      "armv7") export TARGETVARIANT="";; \
+    esac; \
+    BUILD_DOT_NET_MAJOR_MINOR=$(echo "${BUILD_DOT_NET_VERSION}" | awk -F '.' '{print $1}').$(echo "${BUILD_DOT_NET_VERSION}" | awk -F '.' '{print $2}'); \
+    ./build.sh \
+      --backend \
+      --frontend \
+      --packages \
+      -f net6.0 \
+      -r linux-musl-${TARGETARCH}${TARGETVARIANT};
 
   RUN set -ex; \
-    eleven strip ${BUILD_BIN}; \
-    eleven strip ${BUILD_ROOT}/ffprobe; \
-    find ./ -type f -name "*.dll" -exec /usr/local/bin/upx -q --best --ultra-brute --no-backup {} &> /dev/null \; ;\
     mkdir -p /opt/sonarr; \
-    cp -R ${BUILD_ROOT}/* /opt/sonarr; \
-    rm -rf /opt/sonarr/Sonarr.Update;
+    rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/ServiceUninstall.*; \
+    rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/ServiceInstall.*; \
+    rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/Sonarr.Windows.*; \
+    cp -af ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/. /opt/sonarr; \
+    cp -af ${BUILD_ROOT}/_output/UI /opt/sonarr;
+
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       IMAGE                         ║
