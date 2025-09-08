@@ -3,10 +3,14 @@
 # SONARR
 ![size](https://img.shields.io/docker/image-size/11notes/sonarr/4.0.15?color=0eb305)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![version](https://img.shields.io/docker/v/11notes/sonarr/4.0.15?color=eb7a09)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![pulls](https://img.shields.io/docker/pulls/11notes/sonarr?color=2b75d6)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)[<img src="https://img.shields.io/github/issues/11notes/docker-SONARR?color=7842f5">](https://github.com/11notes/docker-SONARR/issues)![5px](https://github.com/11notes/defaults/blob/main/static/img/transparent5x2px.png?raw=true)![swiss_made](https://img.shields.io/badge/Swiss_Made-FFFFFF?labelColor=FF0000&logo=data:image/svg%2bxml;base64,PHN2ZyB2ZXJzaW9uPSIxIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDMyIDMyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgZmlsbD0idHJhbnNwYXJlbnQiLz4KICA8cGF0aCBkPSJtMTMgNmg2djdoN3Y2aC03djdoLTZ2LTdoLTd2LTZoN3oiIGZpbGw9IiNmZmYiLz4KPC9zdmc+)
 
-Run Sonarr smaller, lightweight and more secure than ever
+Run Sonarr smaller, lightweight and more secure
+
+# INTRODUCTION 📢
+
+Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
 
 # SYNOPSIS 📖
-**What can I do with this?** This image will give you a rootless and lightweight Sonarr installation. Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
+**What can I do with this?** This image will give you a rootless and lightweight Sonarr installation directly compiled from source.
 
 # UNIQUE VALUE PROPOSITION 💶
 **Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
@@ -14,6 +18,8 @@ Run Sonarr smaller, lightweight and more secure than ever
 > [!IMPORTANT]
 >* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
 >* ... this image is auto updated to the latest version via CI/CD
+>* ... this image is built and compiled from source
+>* ... this image supports 32bit architecture
 >* ... this image has a health check
 >* ... this image runs read-only
 >* ... this image is automatically scanned for CVEs before and after publishing
@@ -25,13 +31,12 @@ If you value security, simplicity and optimizations to the extreme, then this im
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| **image** | 11notes/sonarr:4.0.15 | linuxserver/sonarr |
-| ---: | :---: | :---: |
-| **image size on disk** | 183MB | 205MB |
-| **process UID/GID** | 1000/1000 | 0/0 |
-| **distroless?** | ❌ | ❌ |
-| **rootless?** | ✅ | ❌ |
-
+| **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
+| ---: | ---: | :---: | :---: | :---: |
+| 11notes/sonarr:4.0.15 | 183MB | 1000:1000 | ❌ | amd64, arm64 |
+| home-operations/sonarr | 195MB | 65534:65533 | ❌ | amd64, arm64 |
+| linuxserver/sonarr | 205MB | 0:0 | ❌ | amd64, arm64 |
+| hotio/sonarr | 259MB | 0:0 | ❌ | amd64, arm64 |
 
 **Why is this image not distroless?** I would have loved to create a distroless, single binary image, sadly the way that Sonarr is setup makes it really difficult to compile a static binary from source. Enabling AOT breaks almost 30% of used libraries because they are not setup to be statically linked (like Assembly.GetExecutingAssembly().Location). It’s also not fixable with a single PR. This is something the Sonarr team would need to do.
 
@@ -114,4 +119,4 @@ docker pull quay.io/11notes/sonarr:4.0.15
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 07.08.2025, 16:26:49 (CET)*
+*created 08.09.2025, 14:51:53 (CET)*
