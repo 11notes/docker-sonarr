@@ -11,7 +11,8 @@
     "version": "4.0.15"
   },
   "readme": {
-    "description": "Run Sonarr smaller, lightweight and more secure than ever",
+    "description": "Run Sonarr smaller, lightweight and more secure",
+    "introduction": "Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.",
     "parent": {
       "image": "11notes/alpine:stable"
     },
@@ -19,7 +20,7 @@
       "sonarr": "https://github.com/Sonarr/Sonarr"
     },
     "comparison": {
-      "image": "linuxserver/sonarr"
+      "images": ["linuxserver/sonarr", "ghcr.io/hotio/sonarr", "ghcr.io/home-operations/sonarr:rolling"]
     }
   }
 }
