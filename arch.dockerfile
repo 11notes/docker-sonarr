@@ -10,9 +10,7 @@
 
 # :: FOREIGN IMAGES
   FROM 11notes/util AS util
-  FROM 11notes/util:bin AS util-bin
   FROM 11notes/distroless:localhealth AS distroless-localhealth
-  FROM 11notes/distroless:ds AS distroless-ds
 
 
 # ╔═════════════════════════════════════════════════════╗
@@ -20,8 +18,7 @@
 # ╚═════════════════════════════════════════════════════╝
 # :: PROWLARR
   FROM 11notes/dotnetsdk:${BUILD_DOT_NET_VERSION} AS build
-  COPY --from=util-bin / /
-  COPY --from=distroless-ds / /
+  COPY --from=util / /
   ARG TARGETARCH \
       TARGETVARIANT \
       APP_VERSION \
@@ -29,15 +26,13 @@
       BUILD_SRC \
       BUILD_ROOT \
       BUILD_DOT_NET_VERSION
-  ENV PROWLARRVERSION=${APP_VERSION}.${APP_VERSION_BUILD}
 
   RUN set -ex; \
     eleven git clone ${BUILD_SRC} v${APP_VERSION}.${APP_VERSION_BUILD};
 
   RUN set -ex; \
     echo '{"sdk":{"version":"'${BUILD_DOT_NET_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
-    sed -i 's#<TreatWarningsAsErrors>true</TreatWarningsAsErrors>#<TreatWarningsAsErrors>false</TreatWarningsAsErrors>#' ${BUILD_ROOT}/src/Directory.Build.props; \
-    cat ${BUILD_ROOT}/global.json;
+    sed -i 's#<TreatWarningsAsErrors>true</TreatWarningsAsErrors>#<TreatWarningsAsErrors>false</TreatWarningsAsErrors>#' ${BUILD_ROOT}/src/Directory.Build.props;
 
   RUN set -ex; \
     apk --update --no-cache add \
@@ -51,12 +46,10 @@
       "amd64") export TARGETARCH="x64";; \
       "armv7") export TARGETVARIANT="";; \
     esac; \
-    BUILD_DOT_NET_MAJOR_MINOR=$(echo "${BUILD_DOT_NET_VERSION}" | awk -F '.' '{print $1}').$(echo "${BUILD_DOT_NET_VERSION}" | awk -F '.' '{print $2}'); \
     ./build.sh \
       --backend \
       --frontend \
       --packages \
-      -f net6.0 \
       -r linux-musl-${TARGETARCH}${TARGETVARIANT};
 
   RUN set -ex; \
