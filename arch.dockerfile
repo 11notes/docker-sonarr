@@ -93,26 +93,20 @@
 
   # :: multi-stage
     COPY --from=distroless-localhealth / /
-    COPY --from=build ${OPT_ROOT} ${OPT_ROOT}
+    COPY --from=build --chown=${APP_UID}:${APP_GID} ${OPT_ROOT} ${OPT_ROOT}
     COPY --from=util / /
-    COPY ./rootfs /
+    COPY --chown=${APP_UID}:${APP_GID} ./rootfs /
 
 # :: Run
   USER root
 
-  # :: install applications
+  # :: install dependencies
     RUN set -ex; \
       apk --no-cache --update add \
         icu-libs \
         sqlite-libs; \
-      mkdir -p ${APP_ROOT}/etc;
-
-  # :: copy filesystem changes and set correct permissions
-    RUN set -ex; \
-      chmod +x -R /usr/local/bin; \
-      chown -R ${APP_UID}:${APP_GID} \
-        ${OPT_ROOT} \
-        ${APP_ROOT};
+      mkdir -p ${APP_ROOT}/etc; \
+      chmod +x -R /usr/local/bin;
 
 # :: PERSISTENT DATA
   VOLUME ["${APP_ROOT}/etc"]
