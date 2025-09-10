@@ -4,12 +4,14 @@
 # GLOBAL
   ARG APP_UID=1000 \
       APP_GID=1000 \
-      BUILD_DOT_NET_VERSION=9.0.304 \
+      BUILD_DOTNET_VERSION=9.0.304 \
       BUILD_SRC=Sonarr/Sonarr.git \
-      BUILD_ROOT=/Sonarr
+      BUILD_ROOT=/Sonarr \
+      OPT_ROOT=/opt/sonarr
 
 # :: FOREIGN IMAGES
   FROM 11notes/util AS util
+  FROM 11notes/util:bin AS util-bin
   FROM 11notes/distroless:localhealth AS distroless-localhealth
 
 
@@ -17,21 +19,22 @@
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
 # :: PROWLARR
-  FROM 11notes/dotnetsdk:${BUILD_DOT_NET_VERSION} AS build
-  COPY --from=util / /
+  FROM 11notes/dotnetsdk:${BUILD_DOTNET_VERSION} AS build
+  COPY --from=util-bin / /
   ARG TARGETARCH \
       TARGETVARIANT \
       APP_VERSION \
       APP_VERSION_BUILD \
       BUILD_SRC \
       BUILD_ROOT \
-      BUILD_DOT_NET_VERSION
+      BUILD_DOTNET_VERSION \
+      OPT_ROOT
 
   RUN set -ex; \
     eleven git clone ${BUILD_SRC} v${APP_VERSION}.${APP_VERSION_BUILD};
 
   RUN set -ex; \
-    echo '{"sdk":{"version":"'${BUILD_DOT_NET_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
+    echo '{"sdk":{"version":"'${BUILD_DOTNET_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
     sed -i 's#<TreatWarningsAsErrors>true</TreatWarningsAsErrors>#<TreatWarningsAsErrors>false</TreatWarningsAsErrors>#' ${BUILD_ROOT}/src/Directory.Build.props;
 
   RUN set -ex; \
@@ -50,15 +53,16 @@
       --backend \
       --frontend \
       --packages \
+      -f net6.0 \
       -r linux-musl-${TARGETARCH}${TARGETVARIANT};
 
   RUN set -ex; \
-    mkdir -p /opt/sonarr; \
+    mkdir -p ${OPT_ROOT}; \
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/ServiceUninstall.*; \
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/ServiceInstall.*; \
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/Sonarr.Windows.*; \
-    cp -af ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/. /opt/sonarr; \
-    cp -af ${BUILD_ROOT}/_output/UI /opt/sonarr;
+    cp -af ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/. ${OPT_ROOT}; \
+    cp -af ${BUILD_ROOT}/_output/UI ${OPT_ROOT};
 
 
 # ╔═════════════════════════════════════════════════════╗
@@ -78,7 +82,8 @@
         APP_ROOT \
         APP_UID \
         APP_GID \
-        APP_NO_CACHE
+        APP_NO_CACHE \
+        OPT_ROOT
 
   # :: default environment
     ENV APP_IMAGE=${APP_IMAGE} \
@@ -88,7 +93,7 @@
 
   # :: multi-stage
     COPY --from=distroless-localhealth / /
-    COPY --from=build /opt/sonarr /opt/sonarr
+    COPY --from=build ${OPT_ROOT} ${OPT_ROOT}
     COPY --from=util / /
     COPY ./rootfs /
 
@@ -106,6 +111,7 @@
     RUN set -ex; \
       chmod +x -R /usr/local/bin; \
       chown -R ${APP_UID}:${APP_GID} \
+        ${OPT_ROOT} \
         ${APP_ROOT};
 
 # :: PERSISTENT DATA
@@ -117,3 +123,4 @@
 
 # :: EXECUTE
   USER ${APP_UID}:${APP_GID}
+  ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/entrypoint.sh"]
