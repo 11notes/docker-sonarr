@@ -7,7 +7,6 @@ x-lockdown: &lockdown
   security_opt:
     - "no-new-privileges=true"
 
-
 services:
   sonarr:
     image: "11notes/sonarr:4.0.15"
