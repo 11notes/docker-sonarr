@@ -12,7 +12,7 @@
   },
   "readme": {
     "description": "Run Sonarr smaller, lightweight and more secure",
-    "introduction": "Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.",
+    "introduction": "[Sonarr](https://github.com/Sonarr/Sonarr) (created by [Sonarr](https://github.com/Sonarr)) is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.",
     "parent": {
       "image": "11notes/alpine:stable"
     },
