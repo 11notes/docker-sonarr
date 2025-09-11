@@ -18,7 +18,7 @@
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
-# :: PROWLARR
+# :: SONARR
   FROM 11notes/dotnetsdk:${BUILD_DOTNET_VERSION} AS build
   COPY --from=util-bin / /
   ARG TARGETARCH \
