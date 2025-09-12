@@ -7,7 +7,7 @@ Run Sonarr smaller, lightweight and more secure
 
 # INTRODUCTION 📢
 
-Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
+[Sonarr](https://github.com/Sonarr/Sonarr) (created by [Sonarr](https://github.com/Sonarr)) is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort and rename them. It can also be configured to automatically upgrade the quality of files already downloaded when a better quality format becomes available.
 
 # SYNOPSIS 📖
 **What can I do with this?** This image will give you a [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and lightweight Sonarr installation for your adventures on the high seas *arrrr*!
@@ -18,7 +18,7 @@ This image is part of the so called arr-stack (apps to pirate and manage media c
 - [11notes/plex](https://github.com/11notes/docker-plex) - as your media server
 - [11notes/prowlarr](https://github.com/11notes/docker-prowlarr) - to manage all your indexers
 - [11notes/qbittorrent](https://github.com/11notes/docker-qbittorrent) - as your torrent client
-- [11notes/radarr](https://github.com/11notes/docker-radarr) - to manage your TV shows
+- [11notes/radarr](https://github.com/11notes/docker-radarr) - to manage your films
 - [11notes/sabnzbd](https://github.com/11notes/docker-sabnzbd) - as your usenet client
 
 # UNIQUE VALUE PROPOSITION 💶
@@ -62,7 +62,6 @@ x-lockdown: &lockdown
   # prevents any process within the container to gain more privileges
   security_opt:
     - "no-new-privileges=true"
-
 
 services:
   sonarr:
@@ -141,4 +140,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 11.09.2025, 08:55:47 (CET)*
+*created 11.09.2025, 15:24:36 (CET)*
