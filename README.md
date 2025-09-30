@@ -15,6 +15,7 @@ Run Sonarr smaller, lightweight and more secure
 # ARR STACK IMAGES 🏴‍☠️
 This image is part of the so called arr-stack (apps to pirate and manage media content). Here is the list of all it's companion apps for the best pirate experience:
 
+- [11notes/configarr](https://github.com/11notes/docker-configarr) - as your TRaSH guide syncer for Sonarr and Radarr
 - [11notes/plex](https://github.com/11notes/docker-plex) - as your media server
 - [11notes/prowlarr](https://github.com/11notes/docker-prowlarr) - to manage all your indexers
 - [11notes/qbittorrent](https://github.com/11notes/docker-qbittorrent) - as your torrent client
@@ -141,4 +142,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-sonarr/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-sonarr/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-sonarr/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 15.09.2025, 00:22:06 (CET)*
+*created 30.09.2025, 10:18:41 (CET)*
