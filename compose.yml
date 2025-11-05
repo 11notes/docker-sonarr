@@ -9,7 +9,7 @@ x-lockdown: &lockdown
 
 services:
   sonarr:
-    image: "11notes/sonarr:4.0.15"
+    image: "11notes/sonarr:4.0.16"
     <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
