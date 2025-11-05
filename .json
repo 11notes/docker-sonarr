@@ -4,11 +4,11 @@
   "root": "/sonarr",
   "build": {
     "args": {
-      "version_build": "2941"
+      "version_build": "2944"
     }
   },
   "semver": {
-    "version": "4.0.15"
+    "version": "4.0.16"
   },
   "readme": {
     "description": "Run Sonarr smaller, lightweight and more secure",
@@ -20,7 +20,11 @@
       "sonarr": "https://github.com/Sonarr/Sonarr"
     },
     "comparison": {
-      "images": ["linuxserver/sonarr", "ghcr.io/hotio/sonarr", "ghcr.io/home-operations/sonarr:rolling"]
+      "images": [
+        "linuxserver/sonarr",
+        "ghcr.io/hotio/sonarr",
+        "ghcr.io/home-operations/sonarr:rolling"
+      ]
     }
   }
 }
