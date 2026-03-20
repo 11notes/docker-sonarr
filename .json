@@ -8,7 +8,7 @@
     }
   },
   "semver": {
-    "version": "4.0.16"
+    "version": "4.0.17"
   },
   "readme": {
     "description": "run Sonarr rootless",
