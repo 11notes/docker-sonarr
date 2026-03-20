@@ -2,8 +2,8 @@
 # ║                       SETUP                         ║
 # ╚═════════════════════════════════════════════════════╝
 # GLOBAL
-  ARG APP_UID=1000 \
-      APP_GID=1000 \
+  ARG APP_UID= \
+      APP_GID= \
       BUILD_DOTNET_VERSION=9.0.304 \
       BUILD_SRC=Sonarr/Sonarr.git \
       BUILD_ROOT=/Sonarr \
