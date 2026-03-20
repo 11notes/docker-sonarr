@@ -128,8 +128,10 @@ jobs:
                   build.args = {
                     version_build:job.inputs.build,
                   };
+                  job.json.build.args.version_build = job.inputs.build;
                 }else if(job.inputs?.build?.args){
                   build.args = job.inputs.build.args;
+                  job.json.build.args.version_build = job.inputs.build.args;
                 }
 
                 // update .json
@@ -183,13 +185,13 @@ jobs:
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7
         with:
           workflow: docker.yml
-          wait-for-completion: false
+          wait-for-completion: true
           token: "${{ secrets.REPOSITORY_TOKEN }}"
           inputs: '{ "release":"${{ github.event.inputs.release }}", "readme":"${{ github.event.inputs.readme }}", "run-name":"update v${{ env.LATEST_VERSION }}", "etc":"${{ env.WORKFLOW_UPDATE_BASE64JSON }}" }'
           ref: "v${{ env.LATEST_TAG }}"
 
       - name: update / build container image for unraid
-        if: env.WORKFLOW_UPDATE_UNRAID == 'true' && steps.checkout.outcome == 'success' && steps.build.outcome == 'success'
+        if: env.WORKFLOW_UPDATE_UNRAID == 'true' && steps.build.outputs.workflow-conclusion == 'success'
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7
         with:
           workflow: docker.yml
@@ -199,7 +201,7 @@ jobs:
           ref: "v${{ env.LATEST_TAG }}"
 
       - name: update / build container image for nobody
-        if: env.WORKFLOW_UPDATE_NOBODY == 'true' && steps.checkout.outcome == 'success' && steps.build.outcome == 'success'
+        if: env.WORKFLOW_UPDATE_NOBODY == 'true' && steps.build.outputs.workflow-conclusion == 'success'
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7
         with:
           workflow: docker.yml
