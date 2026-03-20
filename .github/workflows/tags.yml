@@ -7,7 +7,7 @@ jobs:
   image:
     runs-on: ubuntu-latest
     steps:
-      - name: build docker image
+      - name: build container image
         uses: the-actions-org/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7
         with:
           workflow: docker.yml
