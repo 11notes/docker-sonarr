@@ -4,11 +4,11 @@
   "root": "/sonarr",
   "build": {
     "args": {
-      "version_build": "2944"
+      "version_build": "2952"
     }
   },
   "semver": {
-    "version": "4.0.16"
+    "version": "4.0.17"
   },
   "readme": {
     "description": "run Sonarr rootless",
