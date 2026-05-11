@@ -371,6 +371,10 @@ jobs:
                       case /11notes\/python\:\$\{APP_PYTHON_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'python'); break;
                       case /11notes\/php\:\$\{APP_PHP_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'php'); break;
                       case /11notes\/php-fpm\:\$\{APP_PHP_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'php'); break;
+                      case /11notes\/dotnetsdk\:\$\{APP_DOTNET8_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'dotnet8'); break;
+                      case /11notes\/dotnetsdk\:\$\{APP_DOTNET9_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'dotnet9'); break;
+                      case /11notes\/dotnetsdk\:\$\{APP_DOTNET10_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'dotnet10'); break;
+                      case /11notes\/dotnetsdk\:\$\{APP_DOTNET11_VERSION\}/ig.test(file): core.exportVariable('WORKFLOW_IMAGE_DEPENDENCY', 'dotnet11'); break;
                     }
                   }catch(e){
                     throw new Error(`could not open ./${dockerfile}: ${e}`);
