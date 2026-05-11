@@ -31,7 +31,7 @@ jobs:
           ref: 'master'
           fetch-depth: 0
 
-      - name: get
+      - name: get latest version and last tag
         run: |
           LATEST_VERSION=$(curl -s https://api.github.com/repos/Sonarr/Sonarr/releases/latest | jq -r '.tag_name' | sed 's|v||')
           if [ "${LATEST_VERSION}" != "null" ]; then
