@@ -4,7 +4,7 @@
 # GLOBAL
   ARG APP_UID=1000 \
       APP_GID=1000 \
-      APP_DOTNET9_VERSION=0
+      APP_STATIC_DOTNET_VERSION=6.0.405
 
 # IMAGE
   ARG BUILD_SRC=Sonarr/Sonarr.git \
@@ -15,23 +15,20 @@
   FROM 11notes/util AS util
   FROM 11notes/util:bin AS util-bin
   FROM 11notes/distroless:localhealth AS distroless-localhealth
-  FROM 11notes/distroless:ds AS distroless-ds
-
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
 # :: SONARR
-  FROM 11notes/dotnetsdk:${APP_DOTNET9_VERSION} AS build
+  FROM 11notes/dotnetsdk:${APP_STATIC_DOTNET_VERSION} AS build
   COPY --from=util-bin / /
-  COPY --from=distroless-ds / /
   ARG TARGETARCH \
       TARGETVARIANT \
       APP_VERSION \
       APP_VERSION_BUILD \
       BUILD_SRC \
       BUILD_ROOT \
-      APP_DOTNET9_VERSION \
+      APP_STATIC_DOTNET_VERSION \
       OPT_ROOT
 
   ENV SONARR_VERSION=${APP_VERSION}.${APP_VERSION_BUILD} \
@@ -41,7 +38,7 @@
     eleven git clone ${BUILD_SRC} v${APP_VERSION}.${APP_VERSION_BUILD};
 
   RUN set -ex; \
-    echo '{"sdk":{"version":"'${APP_DOTNET9_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
+    echo '{"sdk":{"version":"'${APP_STATIC_DOTNET_VERSION}'"}}' > ${BUILD_ROOT}/global.json; \
     sed -i 's#<TreatWarningsAsErrors>true</TreatWarningsAsErrors>#<TreatWarningsAsErrors>false</TreatWarningsAsErrors>#' ${BUILD_ROOT}/src/Directory.Build.props;
 
   RUN set -ex; \
@@ -70,11 +67,6 @@
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/Sonarr.Windows*; \
     cp -af ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/. ${OPT_ROOT}; \
     cp -af ${BUILD_ROOT}/_output/UI ${OPT_ROOT};
-
-  RUN set -ex; \
-    chmod -R 0755 ${OPT_ROOT}/*; \
-    find ${OPT_ROOT} -type f -executable -not -name "*.dll*" -not -name "*.so*" -exec ds "{}" ";"; \
-    ds --bye;
 
 # :: FILE-SYSTEM
   FROM alpine AS file-system
