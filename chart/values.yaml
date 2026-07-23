@@ -1,0 +1,74 @@
+image:
+  repository: 11notes/sonarr
+  tag: "4.0.19"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+nameOverride: ""
+fullnameOverride: ""
+timezone: "Europe/Zurich"
+
+postgres:
+  serviceName: ""
+  existingSecret: ""
+  existingSecretKey: "POSTGRES_PASSWORD"
+
+extraEnv: []
+
+service:
+  type: ClusterIP
+  port: 8989
+  nodePort: ""
+  annotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: "OnRootMismatch"
+
+containerSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podAnnotations: {}
+podLabels: {}
+
+tmpfs:
+  tmp:
+    sizeLimit: ""
+
+persistence:
+  etc:
+    enabled: true
+    existingClaim: ""
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 16Mi
+
+livenessProbe:
+  exec:
+    command:
+      - localhealth
+      - http://127.0.0.1:8989/ping
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+
+readinessProbe:
+  exec:
+    command:
+      - localhealth
+      - http://127.0.0.1:8989/ping
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6

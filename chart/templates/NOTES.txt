@@ -1,0 +1,1 @@
+11notes/sonarr:({{ .Chart.AppVersion }}) has been deployed as {{ include "sonarr.fullname" . }} to your k8s cluster, enjoy!

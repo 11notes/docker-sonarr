@@ -1,0 +1,12 @@
+apiVersion: v2
+name: sonarr
+description: run Sonarr rootless on k8s
+type: application
+version: 1.0.0
+home: https://github.com/11notes/docker-sonarr
+sources:
+  - https://github.com/11notes/docker-sonarr
+keywords:
+  - arr
+maintainers:
+  - name: 11notes
