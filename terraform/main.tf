@@ -47,7 +47,7 @@ resource "kubernetes_secret_v1" "postgres_password" {
 }
 
 resource "helm_release" "sonarr_db" {
-  name = "sonarr-postgres"
+  name = "sonarr-db"
   repository = "oci://ghcr.io/11notes/charts"
   chart = "postgres"
   namespace  = "arr"
@@ -59,7 +59,6 @@ resource "helm_release" "sonarr_db" {
 
   values = [
     yamlencode({
-      fullnameOverride = "sonarr"
       image = {
         tag: "18"
       }
@@ -95,7 +94,7 @@ resource "helm_release" "sonarr" {
       postgres = {
         existingSecret = "sonarr-postgres-password"
         existingSecretKey = "POSTGRES_PASSWORD"
-        serviceName = "sonarr-postgres"
+        serviceName = "sonarr-db-postgres"
       }
       persistence = {
         etc = {
