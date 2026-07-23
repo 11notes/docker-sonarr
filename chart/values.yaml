@@ -9,7 +9,7 @@ fullnameOverride: ""
 timezone: "Europe/Zurich"
 
 postgres:
-  serviceName: "sonarr-db"
+  serviceName: "sonarr-postgres"
   existingSecret: ""
   existingSecretKey: "POSTGRES_PASSWORD"
 

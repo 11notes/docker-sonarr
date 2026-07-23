@@ -35,7 +35,7 @@ resource "kubernetes_namespace_v1" "arr" {
 
 resource "kubernetes_secret_v1" "postgres_password" {
   metadata {
-    name = "sonarr-db-password"
+    name = "sonarr-postgres-password"
     namespace = "arr"
   }
 
@@ -47,7 +47,7 @@ resource "kubernetes_secret_v1" "postgres_password" {
 }
 
 resource "helm_release" "sonarr-db" {
-  name = "sonarr-db"
+  name = "sonarr"
   repository = "oci://ghcr.io/11notes/charts"
   chart = "postgres"
   namespace  = "arr"
@@ -59,7 +59,7 @@ resource "helm_release" "sonarr-db" {
         tag: "18"
       }
       postgres = {
-        existingSecret    = "sonarr-db-password"
+        existingSecret    = "sonarr-postgres-password"
         existingSecretKey = "POSTGRES_PASSWORD"
       }
       persistence = {
@@ -88,9 +88,9 @@ resource "helm_release" "sonarr" {
         tag: "4.0.19"
       }
       postgres = {
-        existingSecret = "sonarr-db-password"
+        existingSecret = "sonarr-postgres-password"
         existingSecretKey = "POSTGRES_PASSWORD"
-        serviceName = "sonarr-db"
+        serviceName = "sonarr-postgres"
       }
       persistence = {
         etc = {
