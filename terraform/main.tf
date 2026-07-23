@@ -53,6 +53,10 @@ resource "helm_release" "sonarr_db" {
   namespace  = "arr"
   version = "1.0.0"
 
+  wait = true
+  wait_for_jobs = true
+  timeout = 300
+
   values = [
     yamlencode({
       image = {
