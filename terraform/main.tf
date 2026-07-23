@@ -22,6 +22,11 @@ provider "helm" {
   }
 }
 
+variable "postgres_password" {
+  type = string
+  sensitive = true
+}
+
 resource "kubernetes_namespace_v1" "arr" {
   metadata {
     name = "arr"
