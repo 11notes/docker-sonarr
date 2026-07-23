@@ -47,7 +47,7 @@ resource "kubernetes_secret_v1" "postgres_password" {
 }
 
 resource "helm_release" "sonarr_db" {
-  name = "sonarr"
+  name = "sonarr-postgres"
   repository = "oci://ghcr.io/11notes/charts"
   chart = "postgres"
   namespace  = "arr"
@@ -59,6 +59,7 @@ resource "helm_release" "sonarr_db" {
 
   values = [
     yamlencode({
+      fullnameOverride = "sonarr"
       image = {
         tag: "18"
       }
