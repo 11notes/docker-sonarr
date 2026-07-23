@@ -4,9 +4,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "postgres.fullname" $ }}-{{ $vol }}
+  name: {{ include "sonarr.fullname" $ }}-{{ $vol }}
   labels:
-    {{- include "postgres.labels" $ | nindent 4 }}
+    {{- include "sonarr.labels" $ | nindent 4 }}
 spec:
   accessModes:
     {{- range $cfg.accessModes }}

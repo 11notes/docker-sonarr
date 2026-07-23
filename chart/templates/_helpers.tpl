@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "postgres.name" -}}
+{{- define "sonarr.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "postgres.fullname" -}}
+{{- define "sonarr.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Chart name and version label.
 */}}
-{{- define "postgres.chart" -}}
+{{- define "sonarr.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels.
 */}}
-{{- define "postgres.labels" -}}
-helm.sh/chart: {{ include "postgres.chart" . }}
-{{ include "postgres.selectorLabels" . }}
+{{- define "sonarr.labels" -}}
+helm.sh/chart: {{ include "sonarr.chart" . }}
+{{ include "sonarr.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,8 +43,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels.
 */}}
-{{- define "postgres.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "postgres.name" . }}
+{{- define "sonarr.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "sonarr.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -55,7 +55,7 @@ Name of the Secret holding POSTGRES_PASSWORD.
 {{- if .Values.postgres.existingSecret }}
 {{- .Values.postgres.existingSecret }}
 {{- else }}
-{{- include "postgres.fullname" . }}
+{{- include "sonarr.fullname" . }}
 {{- end }}
 {{- end }}
 
@@ -73,13 +73,13 @@ Key within the Secret holding POSTGRES_PASSWORD.
 {{/*
 Claim name for a given persistence volume (etc).
 */}}
-{{- define "postgres.claimName" -}}
+{{- define "sonarr.claimName" -}}
 {{- $root := index . 0 }}
 {{- $vol := index . 1 }}
 {{- $cfg := index $root.Values.persistence $vol }}
 {{- if $cfg.existingClaim }}
 {{- $cfg.existingClaim }}
 {{- else }}
-{{- printf "%s-%s" (include "postgres.fullname" $root) $vol }}
+{{- printf "%s-%s" (include "sonarr.fullname" $root) $vol }}
 {{- end }}
 {{- end }}
