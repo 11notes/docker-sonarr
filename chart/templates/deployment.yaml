@@ -54,9 +54,9 @@ spec:
               value: "postgres"
             - name: SONARR__POSTGRES__MAINDB
               value: "postgres"
-            - name: SONARR__POSTGRES__MAINDB
-              value: "postgres"
             - name: SONARR__POSTGRES__LOGDB
+              value: "postgres"
+            - name: SONARR__POSTGRES__PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "postgres.secretName" . }}
