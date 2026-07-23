@@ -46,7 +46,7 @@ resource "kubernetes_secret_v1" "postgres_password" {
   type = "Opaque"
 }
 
-resource "helm_release" "sonarr-db" {
+resource "helm_release" "sonarr_db" {
   name = "sonarr"
   repository = "oci://ghcr.io/11notes/charts"
   chart = "postgres"
@@ -99,4 +99,6 @@ resource "helm_release" "sonarr" {
       }
     })
   ]
+
+  depends_on = [helm_release.sonarr_db]
 }
