@@ -66,7 +66,8 @@
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/ServiceInstall*; \
     rm -f ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/Sonarr.Windows*; \
     cp -af ${BUILD_ROOT}/_output/net*/linux-musl-*/publish/. ${OPT_ROOT}; \
-    cp -af ${BUILD_ROOT}/_output/UI ${OPT_ROOT};
+    cp -af ${BUILD_ROOT}/_output/UI ${OPT_ROOT}; \
+    chmod 775 -R ${OPT_ROOT};
 
 # :: FILE-SYSTEM
   FROM alpine AS file-system
