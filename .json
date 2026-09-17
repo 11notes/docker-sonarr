@@ -2,13 +2,9 @@
   "image": "11notes/sonarr",
   "name": "sonarr",
   "root": "/sonarr",
-  "build": {
-    "args": {
-      "version_build": "2979"
-    }
-  },
+  "build": "3014",
   "semver": {
-    "version": "4.0.19"
+    "version": "4.0.20"
   },
   "readme": {
     "description": "run Sonarr rootless",
